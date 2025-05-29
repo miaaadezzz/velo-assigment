@@ -7,7 +7,7 @@ export default async function Home() {
     <div className="min-h-screen bg-[#F6F7FB] flex flex-col items-center px-4 py-6">
       {/* Header */}
       <header className="w-full max-w-md flex flex-col items-center mb-8">
-        <h1 className="text-4xl font-extrabold text-[#1A1A1A] tracking-tight mb-2">
+        <h1 className="text-4xl font-extrabold text-[#2D3A46] tracking-tight mb-2">
           Velo Antwerpen
         </h1>
         <p className="text-base text-[#6B7280] text-center">

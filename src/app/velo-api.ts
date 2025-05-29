@@ -17,7 +17,8 @@ export async function fetchAntwerpenStations(): Promise<Station[]> {
   const data = await res.json();
   return data.network.stations.slice(0, 10).map((s: any) => ({
     id: s.id,
-    name: s.name,
+    // Remove leading number and dash if present
+    name: s.name.replace(/^[0-9]+\s*-\s*/, ""),
     free_bikes: s.free_bikes,
     empty_slots: s.empty_slots,
   }));

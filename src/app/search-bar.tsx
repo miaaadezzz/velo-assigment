@@ -1,12 +1,42 @@
 "use client";
 import Link from "next/link";
 import { FaBicycle } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Station } from "./velo-api";
 
 export default function SearchBar({ stations }: { stations: Station[] }) {
   const [query, setQuery] = useState("");
-  const filtered = stations.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
+  const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
+  const [stationsWithDistance, setStationsWithDistance] = useState<Station[]>(stations);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        setUserLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userLocation) {
+      setStationsWithDistance(
+        stations.map((s) => ({
+          ...s,
+          distance:
+            s.latitude && s.longitude
+              ? Math.round(
+                  getDistance(userLocation.lat, userLocation.lon, s.latitude, s.longitude)
+                )
+              : undefined,
+        }))
+      );
+    } else {
+      setStationsWithDistance(stations);
+    }
+  }, [userLocation, stations]);
+
+  const filtered = stationsWithDistance.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
+
   return (
     <>
       <input
@@ -27,6 +57,9 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
                 <FaBicycle className="text-[#457B9D] text-3xl sm:text-4xl" />
                 <h2 className="text-lg font-bold text-[#1A1A1A] leading-tight">
                   {station.name}
+                  {station.distance !== undefined && (
+                    <span className="ml-2 text-xs text-[#6B7280]">({station.distance} m)</span>
+                  )}
                 </h2>
               </div>
               <Link
@@ -55,4 +88,18 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
       </ul>
     </>
   );
+}
+
+function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+  // Haversine formula
+  const R = 6371000; // meters
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }

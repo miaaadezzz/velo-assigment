@@ -56,7 +56,7 @@ export default function StationDetailPage({ params }: { params: Promise<{ id: st
         <div className="flex flex-row justify-center gap-10 w-full mb-8">
           <div className="flex flex-col items-center">
             <span
-              className={`text-4xl font-bold ${station.free_bikes > 10 ? 'text-green-600/70' : 'text-red-600/70'}`}
+              className={`text-4xl font-bold ${station.free_bikes > 10 ? 'text-green-600' : 'text-red-600'}`}
             >
               {station.free_bikes}
             </span>
@@ -64,7 +64,7 @@ export default function StationDetailPage({ params }: { params: Promise<{ id: st
           </div>
           <div className="flex flex-col items-center">
             <span
-              className={`text-4xl font-bold ${station.empty_slots > 10 ? 'text-green-600/70' : 'text-red-600/70'}`}
+              className={`text-4xl font-bold ${station.empty_slots > 10 ? 'text-green-600' : 'text-red-600'}`}
             >
               {station.empty_slots}
             </span>

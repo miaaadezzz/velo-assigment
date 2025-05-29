@@ -93,7 +93,7 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
             <div className="flex flex-row gap-6 mt-3">
               <div className="flex flex-col items-center">
                 <span
-                  className={`text-2xl font-bold ${station.free_bikes > 10 ? 'text-green-600/70' : 'text-red-600/70'}`}
+                  className={`text-2xl font-bold ${station.free_bikes > 10 ? 'text-green-600' : 'text-red-600'}`}
                 >
                   {station.free_bikes}
                 </span>
@@ -101,7 +101,7 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
               </div>
               <div className="flex flex-col items-center">
                 <span
-                  className={`text-2xl font-bold ${station.empty_slots > 10 ? 'text-green-600/70' : 'text-red-600/70'}`}
+                  className={`text-2xl font-bold ${station.empty_slots > 10 ? 'text-green-600' : 'text-red-600'}`}
                 >
                   {station.empty_slots}
                 </span>

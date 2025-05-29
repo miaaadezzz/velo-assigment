@@ -83,12 +83,23 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
                   )}
                 </h2>
               </div>
-              <Link
-                href={`/station/${station.id}`}
-                className="bg-[#B0C0CF] text-white px-4 py-2 rounded-full text-sm font-semibold shadow hover:bg-[#8A9BAF] transition"
-              >
-                Details
-              </Link>
+              <div className="flex flex-col items-center gap-2">
+                <Link
+                  href={`/station/${station.id}`}
+                  className="bg-[#B0C0CF] text-white px-4 py-2 rounded-full text-sm font-semibold shadow hover:bg-[#8A9BAF] transition w-24 text-center"
+                >
+                  Details
+                </Link>
+                <Link
+                  href={`/station/${station.id}/navigation`}
+                  className="bg-[#B0C0CF] text-white px-4 py-2 rounded-full text-sm font-semibold shadow hover:bg-[#8A9BAF] transition flex items-center justify-center w-24"
+                  aria-label={`Navigatie naar station ${station.name}`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5m0 0l-7 7m7-7l7 7" />
+                  </svg>
+                </Link>
+              </div>
             </div>
             <div className="flex flex-row gap-6 mt-3">
               <div className="flex flex-col items-center">

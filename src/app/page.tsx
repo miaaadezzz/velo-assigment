@@ -4,9 +4,9 @@ import { fetchAntwerpenStations } from "./velo-api";
 export default async function Home() {
   const stations = await fetchAntwerpenStations();
   return (
-    <div className="min-h-screen bg-[#F6F7FB] flex flex-col items-center px-4 py-6">
+    <div className="min-h-screen bg-[#F6F7FB] flex flex-col items-center px-4 py-10">
       {/* Header */}
-      <header className="w-full max-w-md flex flex-col items-center mb-8">
+      <header className="w-full max-w-md flex flex-col items-center mb-10 mt-4">
         <h1 className="text-4xl font-extrabold text-[#2D3A46] tracking-tight mb-2">
           Velo Antwerpen
         </h1>

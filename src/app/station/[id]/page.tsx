@@ -6,15 +6,16 @@ import { FaArrowUp } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import type { Station } from "../../velo-api";
 
-export default function StationDetailPage({ params }: { params: { id: string } }) {
+export default function StationDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
   const [station, setStation] = useState<Station | null>(null);
 
   useEffect(() => {
     fetchAntwerpenStations().then((stations) => {
-      const found = stations.find((s) => s.id === params.id);
+      const found = stations.find((s) => s.id === id);
       setStation(found || null);
     });
-  }, [params.id]);
+  }, [id]);
 
   const [distance, setDistance] = useState<number | null>(null);
   useEffect(() => {
@@ -54,11 +55,19 @@ export default function StationDetailPage({ params }: { params: { id: string } }
         </div>
         <div className="flex flex-row justify-center gap-10 w-full mb-8">
           <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-[#457B9D]">{station.free_bikes}</span>
+            <span
+              className={`text-4xl font-bold ${station.free_bikes > 10 ? 'text-green-600/70' : 'text-red-600/70'}`}
+            >
+              {station.free_bikes}
+            </span>
             <span className="text-xs text-[#6B7280]">Fietsen beschikbaar</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-4xl font-bold text-[#E63946]">{station.empty_slots}</span>
+            <span
+              className={`text-4xl font-bold ${station.empty_slots > 10 ? 'text-green-600/70' : 'text-red-600/70'}`}
+            >
+              {station.empty_slots}
+            </span>
             <span className="text-xs text-[#6B7280]">Plaatsen vrij</span>
           </div>
         </div>

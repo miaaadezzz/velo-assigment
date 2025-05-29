@@ -8,6 +8,7 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
   const [query, setQuery] = useState("");
   const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
   const [stationsWithDistance, setStationsWithDistance] = useState<Station[]>(stations);
+  const [sortOption, setSortOption] = useState<'distance' | 'bikes'>('distance');
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -37,17 +38,37 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
 
   const filtered = stationsWithDistance.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
 
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortOption === 'distance') {
+      if (a.distance === undefined) return 1;
+      if (b.distance === undefined) return -1;
+      return a.distance - b.distance;
+    } else {
+      return b.free_bikes - a.free_bikes;
+    }
+  });
+
   return (
     <>
-      <input
-        type="text"
-        placeholder="Zoek een station..."
-        value={query}
-        onChange={e => setQuery(e.target.value)}
-        className="w-full max-w-md mb-6 px-4 py-2 rounded-lg border border-[#B9B9B9] focus:outline-none focus:ring-2 focus:ring-[#B0C0CF] text-[#2D3A46] placeholder:text-[#6B7280]"
-      />
+      <div className="w-full max-w-md flex flex-row justify-between items-center mb-2">
+        <input
+          type="text"
+          placeholder="Zoek een station..."
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          className="flex-1 mr-2 px-4 py-2 rounded-lg border border-[#B9B9B9] focus:outline-none focus:ring-2 focus:ring-[#B0C0CF] text-[#2D3A46] placeholder:text-[#6B7280]"
+        />
+        <select
+          value={sortOption}
+          onChange={e => setSortOption(e.target.value as 'distance' | 'bikes')}
+          className="px-4 py-2 rounded-lg border border-[#B9B9B9] bg-white/70 text-[#2D3A46] text-sm focus:outline-none focus:ring-2 focus:ring-[#B0C0CF]"
+        >
+          <option value="distance">Dichtstbij</option>
+          <option value="bikes">Meeste fietsen</option>
+        </select>
+      </div>
       <ul className="w-full max-w-md flex flex-col gap-5">
-        {filtered.slice(0, 3).map((station) => (
+        {sorted.slice(0, 3).map((station) => (
           <li
             key={station.id}
             className="bg-white rounded-2xl shadow-lg p-5 flex flex-col gap-2 border border-[#B9B9B9] relative"
@@ -71,13 +92,17 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
             </div>
             <div className="flex flex-row gap-6 mt-3">
               <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-[#457B9D]">
+                <span
+                  className={`text-2xl font-bold ${station.free_bikes > 10 ? 'text-green-600/70' : 'text-red-600/70'}`}
+                >
                   {station.free_bikes}
                 </span>
                 <span className="text-xs text-[#6B7280]">Fietsen</span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-[#E63946]">
+                <span
+                  className={`text-2xl font-bold ${station.empty_slots > 10 ? 'text-green-600/70' : 'text-red-600/70'}`}
+                >
                   {station.empty_slots}
                 </span>
                 <span className="text-xs text-[#6B7280]">Plaatsen</span>

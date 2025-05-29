@@ -2,8 +2,9 @@
 import Link from "next/link";
 import { FaBicycle } from "react-icons/fa";
 import { useState } from "react";
+import type { Station } from "./velo-api";
 
-export default function SearchBar({ stations }: { stations: any[] }) {
+export default function SearchBar({ stations }: { stations: Station[] }) {
   const [query, setQuery] = useState("");
   const filtered = stations.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
   return (
@@ -13,7 +14,7 @@ export default function SearchBar({ stations }: { stations: any[] }) {
         placeholder="Zoek een station..."
         value={query}
         onChange={e => setQuery(e.target.value)}
-        className="w-full max-w-md mb-6 px-4 py-2 rounded-lg border border-[#B9B9B9] focus:outline-none focus:ring-2 focus:ring-[#B0C0CF]"
+        className="w-full max-w-md mb-6 px-4 py-2 rounded-lg border border-[#B9B9B9] focus:outline-none focus:ring-2 focus:ring-[#B0C0CF] text-[#2D3A46] placeholder:text-[#6B7280]"
       />
       <ul className="w-full max-w-md flex flex-col gap-5">
         {filtered.slice(0, 3).map((station) => (

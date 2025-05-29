@@ -15,7 +15,8 @@ export async function fetchAntwerpenStations(): Promise<Station[]> {
   const res = await fetch('https://api.citybik.es/v2/networks/velo-antwerpen');
   if (!res.ok) throw new Error('Failed to fetch stations');
   const data = await res.json();
-  return data.network.stations.slice(0, 10).map((s: any) => ({
+  // The API station object may have extra fields, so use a type assertion
+  return (data.network.stations as Station[]).slice(0, 10).map((s) => ({
     id: s.id,
     // Remove leading number and dash if present
     name: s.name.replace(/^[0-9]+\s*-\s*/, ""),

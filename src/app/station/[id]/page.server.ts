@@ -1,4 +1,4 @@
-import { fetchAntwerpenStations } from "../../../velo-api";
+import { fetchAntwerpenStations } from "../../velo-api";
 
 export async function generateStaticParams() {
   const stations = await fetchAntwerpenStations();

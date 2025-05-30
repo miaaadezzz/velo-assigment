@@ -72,6 +72,10 @@ export default function StationDetailPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
         <Link href="/" className="mt-4 bg-[#B0C0CF] text-white px-6 py-2 rounded-full text-sm font-semibold shadow hover:bg-[#8A9BAF] transition">← Terug naar overzicht</Link>
+        <Link href={`/station/${station.id}/navigation`} className="mt-2 bg-[#B0C0CF] text-white px-6 py-2 rounded-full text-sm font-semibold shadow hover:bg-[#8A9BAF] transition flex items-center gap-2">
+          <FaArrowUp className="inline-block text-white text-base" />
+          Navigatie
+        </Link>
       </div>
     </div>
   );

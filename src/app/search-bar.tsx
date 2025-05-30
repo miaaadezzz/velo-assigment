@@ -71,40 +71,21 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
         {sorted.slice(0, 3).map((station) => (
           <li
             key={station.id}
-            className="bg-white rounded-2xl shadow-lg p-5 flex flex-col gap-2 border border-[#B9B9B9] relative"
+            className="bg-white rounded-2xl shadow-lg p-4 sm:p-5 flex flex-col gap-2 border border-[#B9B9B9] relative pb-24 sm:pb-20"
           >
-            <div className="flex flex-row justify-between items-center">
-              <div className="flex items-center gap-2">
-                <FaBicycle className="text-[#457B9D] text-3xl sm:text-4xl" />
-                <h2 className="text-lg font-bold text-[#1A1A1A] leading-tight">
-                  {station.name}
-                  {station.distance !== undefined && (
-                    <span className="ml-2 text-xs text-[#6B7280]">({station.distance} m)</span>
-                  )}
-                </h2>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <Link
-                  href={`/station/${station.id}`}
-                  className="bg-[#B0C0CF] text-white px-4 py-2 rounded-full text-sm font-semibold shadow hover:bg-[#8A9BAF] transition w-24 text-center"
-                >
-                  Details
-                </Link>
-                <Link
-                  href={`/station/${station.id}/navigation`}
-                  className="bg-[#B0C0CF] text-white px-4 py-2 rounded-full text-sm font-semibold shadow hover:bg-[#8A9BAF] transition flex items-center justify-center w-24"
-                  aria-label={`Navigatie naar station ${station.name}`}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5m0 0l-7 7m7-7l7 7" />
-                  </svg>
-                </Link>
-              </div>
+            <div className="flex flex-row items-center gap-2">
+              <FaBicycle className="text-[#457B9D] text-2xl sm:text-3xl md:text-4xl" />
+              <h2 className="text-base sm:text-lg font-bold text-[#1A1A1A] leading-tight">
+                {station.name}
+                {station.distance !== undefined && (
+                  <span className="ml-2 text-xs text-[#6B7280]">({station.distance} m)</span>
+                )}
+              </h2>
             </div>
-            <div className="flex flex-row gap-6 mt-3">
+            <div className="flex flex-row gap-4 sm:gap-6 mt-3">
               <div className="flex flex-col items-center">
                 <span
-                  className={`text-2xl font-bold ${station.free_bikes > 10 ? 'text-green-600' : 'text-red-600'}`}
+                  className={`text-xl sm:text-2xl font-bold ${station.free_bikes > 10 ? 'text-green-600' : 'text-red-600'}`}
                 >
                   {station.free_bikes}
                 </span>
@@ -112,12 +93,30 @@ export default function SearchBar({ stations }: { stations: Station[] }) {
               </div>
               <div className="flex flex-col items-center">
                 <span
-                  className={`text-2xl font-bold ${station.empty_slots > 10 ? 'text-green-600' : 'text-red-600'}`}
+                  className={`text-xl sm:text-2xl font-bold ${station.empty_slots > 10 ? 'text-green-600' : 'text-red-600'}`}
                 >
                   {station.empty_slots}
                 </span>
                 <span className="text-xs text-[#6B7280]">Plaatsen</span>
               </div>
+            </div>
+            {/* Buttons in bottom right corner */}
+            <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end">
+              <Link
+                href={`/station/${station.id}`}
+                className="bg-[#B0C0CF] text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold shadow hover:bg-[#8A9BAF] transition w-20 sm:w-24 text-center"
+              >
+                Details
+              </Link>
+              <Link
+                href={`/station/${station.id}/navigation`}
+                className="bg-[#B0C0CF] text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold shadow hover:bg-[#8A9BAF] transition flex items-center justify-center w-20 sm:w-24"
+                aria-label={`Navigatie naar station ${station.name}`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5m0 0l-7 7m7-7l7 7" />
+                </svg>
+              </Link>
             </div>
           </li>
         ))}
